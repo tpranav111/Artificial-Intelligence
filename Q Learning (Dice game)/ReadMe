@@ -1,0 +1,43 @@
+Uses reinforcement "Q"-learning-like model to train a model via tables to play a dice game of chance among 2 players.
+
+usage: q.py [-h] [-NS NS] [-ND ND] [-H H] [-L L] [-G G] [-M M] [-v V]
+
+Train a model to play a dice game.
+
+optional arguments:
+  -h, --help  show this help message and exit
+  -NS NS      Number of sides on each die
+  -ND ND      Max number of dice to choose from
+  -H H        High winning score (inclusive)
+  -L L        Low winning score (inclusive)
+  -G G        Number of games to train against
+  -M M        Exploitation vs. exploration parameter
+  -v V        Verbose mode
+
+Ex cmds:
+$ python3 q.py -ND 2 -NS 8 -M 50 -L 29 -H 31 -G 10000
+
+For verbose mode: 
+set -v 1  (lowercase v as 1)
+$ python3 q.py  -NS 8 -M 50 -H 31 -G 1000 -ND 4 -L 12 -v 1
+$ python3 q.py -ND 3 -NS 6 -M 10 -H 21 -L 18 -G 1000 -v 1
+=============================================================================
+
+The Game
+This is a 2-player dice game with 4 configurable parameters: 
+
+NS - sides on each die -- always with equiprobable outcomes
+ND - max number of dice to choose from
+H - high winning score (inclusive)
+L - low winning score (inclusive)
+
+Each player starts with a score of 0 and alternating until someone wins/loses each player:
+
+Player A always goes first.
+
+Picks a number of dice to roll from 1 to ND
+Roll the selected dice and add to your previous score total
+If this player score is now <= H and >= L the rolling player wins
+If the score is > H the player loses
+Otherwise it is now the other player's turn; this repeats until someone wins/loses
+The thing to train is given a game, what is the optimal # of dice to try rolling?
