@@ -1,4 +1,3 @@
-#Pranav Thorat pat9991
 
 import sys
 import argparse
