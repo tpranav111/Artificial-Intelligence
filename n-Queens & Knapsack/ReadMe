@@ -1,0 +1,14 @@
+Find optimal solution to the n-Queens and/or Knapsack problem using required input arguments:
+
+usage: 
+python file_name.py [-h] [--file FILE] [--R R] --type TYPE [--S S]
+              [--opt_verb OPT_VERB] [--nQ NQ]
+
+Examples:
+ python two.py --type="queens" --nQ=16 --R 5 --S 3 --opt_verb True
+(if verbose not needed: skip the option "--opt_verb")
+
+$ python two.py --type="knapsack" --file="readMe" --R 0 --S 3
+
+
+$ python two.py --type="knapsack" --file="readMe" --R 3 --S 3 --opt_verb True
