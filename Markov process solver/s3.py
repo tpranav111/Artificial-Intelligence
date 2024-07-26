@@ -1,4 +1,3 @@
-#AI LAB-3 : pat9991
 import sys
 import re
 from collections import defaultdict
