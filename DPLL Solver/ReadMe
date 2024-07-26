@@ -1,0 +1,72 @@
+Problem Statement:
+===================
+
+- A generic DPLL solver
+- A BNF to CNF converter
+
+===============
+Execution cmd:
+===============
+solver [-v] -mode $mode $input-file
+-v is an optional flag for verbose mode (more later)
+-mode is followed by one of: cnf, dpll, solver
+a mode-dependent input file (see next section)
+-mode
+In mode "cnf" you should expect a BNF input file, convert to CNF and print to console
+In mode "dpll" you should expect a CNF input file, which you solve using the DPLL algorithm printing the solution to console
+In mode "solver" you should expect a BNF input file, run cnf mode, but instead of printing, send the input to dpll mode
+
+============
+DPLL solver
+============
+When guessing, use the smallest lexicographic atom and guess True first. The output should be either: an assignment of all atoms that satisfies the clauses, or 'NO VALID ASSIGNMENT'.
+Each line of the input file (when running in dpll mode) represents a sentence, with space separated atoms
+Atoms are only alphanumeric [so no parenthesis or brackets]
+No punctuation is needed as in CNF every sentence is a disjunction
+Except ! the negation operator which may be directly in front of an atom (no spaces)
+So, the CNF sentences:
+    P v Q v ! W
+    ! P v Q
+    W
+    ! P v ! W
+Would be written in input as simply:
+    P Q !W
+    !P Q
+    W
+    !P  !W
+And output:
+    P=false
+    Q=true
+    W=true
+
+=====================
+BNF to CNF converter
+=====================
+This portion of the program handles an input file of clauses in BNF, converts to CNF and outputs the clauses in the format understood by the DPLL program.
+
+Each line of the input file (in cnf or solver mode) represents a BNF sentence to be converted into one or more CNF sentences
+Atoms are only alphanumeric
+Operators: !, &, |, =>, <=> are used to represent negate, and, or, implies, if and only if respectively.
+
+You may use yacc/lex or any similar parsing library to read the input file.
+
+Since operators are associated in precedent order: !, &, |, =>, <=>, you can create a parse tree by splitting on the rightmost lowest precedent operator. E.g.
+P & ! Q => W <=> A | B & C
+If parsed, this would be:
+[(P & (!Q)) => (W)] <=> [A | (B & C)]
+I will demonstrate this in class. So for a file such as:
+    P & ! Q => W <=> A | B & C
+    A => B
+    C | B & A
+Would produce output ready for the DPLL program:
+    !A !P Q W
+    !B !C !P Q W
+    B A !W
+    C A !W
+    B A P
+    C A P
+    B A !Q
+    C A !Q
+    !A B
+    A C
+    B C
